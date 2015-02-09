@@ -21,6 +21,7 @@
     "gulp-rename": "*"
   },
   "scripts": {
-    "test": "gulp test; ./node_modules/testem/testem.js launchers; ./node_modules/testem/testem.js"
+    "pretest" : "gulp test",
+    "test": "./node_modules/testem/testem.js launchers; ./node_modules/testem/testem.js"
   }
 }
