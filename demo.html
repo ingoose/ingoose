@@ -17,13 +17,17 @@
         });
         var d = new Date();
         var db_name = 'ingoose_test' + d.toLocaleDateString();
-        indexedDB.webkitGetDatabaseNames().onsuccess = function(ev, arg) {
-            for (var i = 0; i < ev.target.result.length; i++) {
-                var name = ev.target.result[i];
-                if (name == db_name) continue;
-                indexedDB.deleteDatabase(name);
-            }
-        };
+        if (indexedDB.webkitGetDatabaseNames) {
+            // webkit only
+            indexedDB.webkitGetDatabaseNames().onsuccess = function(ev, arg) {
+                for (var i = 0; i < ev.target.result.length; i++) {
+                    var name = ev.target.result[i];
+                    if (name == db_name) continue;
+                    indexedDB.deleteDatabase(name);
+                }
+            };
+        }
+
         // }}}
         var version = d.getHours() + _v;
         ingoose.connect(db_name, version).schemas({
