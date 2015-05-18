@@ -16,16 +16,26 @@
             if (k_v[0] == 'v' && k_v[1] == parseInt(k_v[1])) _v = parseInt(k_v[1]);
         });
         var d = new Date();
-        var db_name = 'ingoose_test' + d.toLocaleDateString();
-        indexedDB.webkitGetDatabaseNames().onsuccess = function(ev, arg) {
-            for (var i = 0; i < ev.target.result.length; i++) {
-                var name = ev.target.result[i];
-                if (name == db_name) continue;
-                indexedDB.deleteDatabase(name);
-            }
-        };
+        var db_name = 'ingoose_test';
+        if (indexedDB.webkitGetDatabaseNames) {
+            // webkit only
+            indexedDB.webkitGetDatabaseNames().onsuccess = function(ev, arg) {
+                for (var i = 0; i < ev.target.result.length; i++) {
+                    var name = ev.target.result[i];
+                    if (name == db_name) continue;
+                    indexedDB.deleteDatabase(name);
+                }
+            };
+        }
+        var version_parts = [
+            d.getFullYear().toString(),
+            ('0' + (d.getMonth() + 1).toString()).slice(-2),
+            ('0' + d.getDate().toString()).slice(-2),
+            ('0' + d.getHours().toString()).slice(-2)
+        ];
+
         // }}}
-        var version = d.getHours() + _v;
+        var version = parseInt(version_parts.join('')) + _v;
         ingoose.connect(db_name, version).schemas({
             'todo': {
                 keyPath: 'id',
