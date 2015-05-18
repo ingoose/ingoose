@@ -16,7 +16,7 @@
             if (k_v[0] == 'v' && k_v[1] == parseInt(k_v[1])) _v = parseInt(k_v[1]);
         });
         var d = new Date();
-        var db_name = 'ingoose_test' + d.toLocaleDateString();
+        var db_name = 'ingoose_test';
         if (indexedDB.webkitGetDatabaseNames) {
             // webkit only
             indexedDB.webkitGetDatabaseNames().onsuccess = function(ev, arg) {
